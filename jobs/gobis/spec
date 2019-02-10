@@ -1,0 +1,86 @@
+---
+name: gobis
+
+templates:
+  bpm.yml.erb: config/bpm.yml
+  config.yml.erb: config/config.yml
+  ssl_cert.pem.erb: config/certs/ssl_cert.pem
+  ssl_key.pem.erb: config/certs/ssl_key.pem
+
+packages:
+  - gobis-server
+
+properties:
+  gobis.host:
+    description: "interface to listen, can be 127.0.0.1 too"
+    default: "0.0.0.0"
+  gobis.port:
+    description: "port to listen (no default provided, you need to use port from your real backend)"
+
+  gobis.start_path:
+    description: "Set the path where all path from route should start (e.g.: if set to `/root` request for the next route will be localhost/root/app)"
+    default: ""
+
+  gobis.protected_headers:
+    description: "List of headers which cannot be removed by sensitive_headers"
+
+  gobis.tls:
+    description: "Certificate and private key for TLS connection to gobis"
+    type: certificate
+
+  gobis.log.level:
+    description: "Verbosity, can be info, debug, warning, error"
+    default: "info"
+  gobis.log.json:
+    description: "set to true to see logs as json instead of plain text"
+    default: true
+
+  gobis.routes:
+    description: "route to apply on your gobis"
+    example: |
+      - name: myapi
+        # Path which gobis handler should listen to
+        # You can use globs:
+        #   - appending /* will only make requests available in first level of upstream
+        #   - appending /** will pass everything to upstream
+        path: /app/**
+        # Upstream url where all request will be redirected (if ForwardedHeader option not set)
+        # Query parameters can be passed, e.g.: http:#localhost?param=1
+        # User and password are given as basic auth too (this is not recommended to use it), e.g.: http:#user:password@localhost
+        # Can be empty if ForwardedHeader is set
+        # This is ignored if ForwardHandler is set
+        url: http://www.mocky.io/v2/595625d22900008702cd71e8
+        # If set upstream url will be took from the value of this header inside the received request
+        # Url option will be used for the router to match host and path (if not empty) found in value of this header and host and path found in url (If NoUrlMatch is false)
+        # this useful, for example, to create a cloud foundry routes service: https:#docs.cloudfoundry.org/services/route-services.html
+        forwarded_header: ""
+        # List of headers which should not be sent to upstream
+        sensitive_headers: []
+        # List of http methods allowed (Default: all methods are accepted)
+        methods: []
+        # An url to an http proxy to make requests to upstream pass to this
+        http_proxy: ""
+        # An url to an https proxy to make requests to upstream pass to this
+        https_proxy: ""
+        # Force to never use proxy even proxy from environment variables
+        no_proxy: false
+        # By default response from upstream are buffered, it can be issue when sending big files
+        # Set to true to stream response
+        no_buffer: false
+        # Set to true to not send X-Forwarded-* headers to upstream
+        remove_proxy_headers: false
+        # Set to true to not check ssl certificates from upstream (not really recommended)
+        insecure_skip_verify: false
+        # Set to true to see errors on web page when there is a panic error on gobis
+        show_error: false
+        # Chain others routes in a routes
+        routes: ~
+        # Will forward directly to proxified route OPTIONS method without using middlewares
+        options_passthrough: false
+        # It was made to pass arbitrary params to use it after in gobis middlewares
+        # Here you can set cors parameters for cors middleware (see doc relative to middlewares here: https://github.com/orange-cloudfoundry/gobis-middlewares)
+        middleware_params:
+          cors:
+            max_age: 12
+            allowed_origins:
+            - http://localhost

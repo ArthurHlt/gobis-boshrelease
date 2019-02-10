@@ -1,0 +1,5 @@
+check process gobis
+  with pidfile   /var/vcap/sys/run/bpm/gobis/gobis.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start gobis"
+  stop program  "/var/vcap/jobs/bpm/bin/bpm stop  gobis"
+  group vcap

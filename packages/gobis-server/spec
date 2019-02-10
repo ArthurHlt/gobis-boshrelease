@@ -1,0 +1,7 @@
+---
+name: gobis-server
+
+dependencies: []
+
+files:
+- gobis-server/gobis-server.linux-amd64.zip

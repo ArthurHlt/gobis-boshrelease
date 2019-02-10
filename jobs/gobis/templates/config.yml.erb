@@ -1,0 +1,5 @@
+host: <%= p('gobis.host') %>
+port: <%= p('gobis.port') %>
+protected_headers: <%= p('gobis.protected_headers', []).to_json %>
+start_path: <%= p('gobis.start_path') %>
+routes: <%= p('gobis.routes', []).to_json %>

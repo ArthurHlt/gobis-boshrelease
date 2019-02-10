@@ -1,0 +1,19 @@
+processes:
+  - name: gobis
+    executable: /var/vcap/packages/gobis-server/bin/gobis-server
+    args:
+      - "-c"
+      - "/var/vcap/jobs/gobis/config/config.yml"
+      - "--no-color"
+      - "--log-level"
+        <% if_p('gobis.log.json') do %>
+      - "--log-json"
+          <% end %>
+        <% if_p('gobis.tls') do %>
+      - "--cert"
+      - /var/vcap/jobs/gobis/config/certs/ssl_cert.pem
+      - "--key"
+      - /var/vcap/jobs/gobis/config/certs/ssl_key.pem
+      <% end %>
+    capabilities:
+      - NET_BIND_SERVICE
