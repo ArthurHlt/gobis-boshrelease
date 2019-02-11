@@ -1,0 +1,19 @@
+name: gobis
+version: 1.6.0
+commit_hash: c5e474f
+uncommitted_changes: true
+jobs:
+- name: gobis
+  version: 9807e033e61b714d00f515dbeecee6db745d7ac5
+  fingerprint: 9807e033e61b714d00f515dbeecee6db745d7ac5
+  sha1: b5720c0c41ddfec0c4f2520e7389f3496625f17f
+packages:
+- name: gobis-server
+  version: fb03c9bb0fa254e33b3e705a9393bd6be26b5b58
+  fingerprint: fb03c9bb0fa254e33b3e705a9393bd6be26b5b58
+  sha1: c96841def918e5a8f2a87ee6a0392782ed299162
+  dependencies: []
+license:
+  version: ab9f1cc7396017b1de3145bd7dc0ef79f2e32304
+  fingerprint: ab9f1cc7396017b1de3145bd7dc0ef79f2e32304
+  sha1: 8cde433663b5e94e94c5092fca1527069dd23507
